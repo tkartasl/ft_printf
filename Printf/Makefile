@@ -6,12 +6,10 @@
 #    By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/15 10:28:56 by tkartasl          #+#    #+#              #
-#    Updated: 2023/11/16 15:22:35 by tkartasl         ###   ########.fr        #
+#    Updated: 2023/11/17 13:22:27 by tkartasl         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 NAME = libftprintf.a
-
-LIBFTDIR = ../Libft
 
 MAKE = make 
 
@@ -28,7 +26,6 @@ FLAGS = -Wall -Wextra -Werror
 all: ${NAME}
 
 ${NAME}: ${OBJS}
-	@${MAKE} all bonus -C ${LIBFTDIR}
 	ar -rcs ${NAME} ${OBJS}
 
 ${OBJS}: ${SRCS}
@@ -36,10 +33,8 @@ ${OBJS}: ${SRCS}
 
 clean:
 	rm -f ${OBJS}
-	${MAKE} clean -C ${LIBFTDIR} 
 
 fclean: clean
 	rm -f ${NAME}
-	${MAKE} fclean -C ${LIBFTDIR}
 
 re: fclean all

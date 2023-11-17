@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:19:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2023/11/17 13:18:10 by tkartasl         ###   ########.fr       */
+/*   Updated: 2023/11/17 13:09:33 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -101,7 +101,8 @@ int	ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			format++;
-			count = ft_write_fail_test(count, ft_print_format(*format, args));
+			if ((*format > 64 && *format < 91) || (*format > 96 && *format < 123))
+				count = ft_write_fail_test(count, ft_print_format(*format, args));
 		}
 		else
 			count = ft_write_fail_test(count, write(1, format, 1));
