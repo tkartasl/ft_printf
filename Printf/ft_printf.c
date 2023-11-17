@@ -6,7 +6,7 @@
 /*   By: tkartasl <tkartasl@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 13:19:38 by tkartasl          #+#    #+#             */
-/*   Updated: 2023/11/17 13:18:10 by tkartasl         ###   ########.fr       */
+/*   Updated: 2023/11/17 16:22:25 by tkartasl         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "ft_printf.h"
@@ -77,37 +77,42 @@ int	ft_print_format(char format, va_list args)
 	if (format == 'd' || format == 'i')
 		count = ft_putnbr((long int)va_arg(args, int));
 	if (format == 'u')
-		count = ft_putnbr((unsigned int)va_arg(args, int));
+		count = ft_putnbr(va_arg(args, unsigned int));
 	if (format == 's')
 		count = ft_putstr(va_arg(args, char *));
 	if (format == 'c')
 		count = ft_putchar(va_arg(args, int));
 	if (format == 'p')
-		count = ft_putptr((unsigned long)va_arg(args, void *));
+		count = ft_putptr(va_arg(args, unsigned long long));
 	if (format == 'x' || format == 'X')
-		count = ft_puthex(&format, (unsigned int)va_arg(args, int));
+		count = ft_puthex(&format, va_arg(args, unsigned int));
 	return (count);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_printf(const char *s, ...)
 {
 	va_list	args;
 	int		count;
 
 	count = 0;
-	va_start(args, format);
-	while (*format != 0)
+	va_start(args, s);
+	while (*s != 0)
 	{
-		if (*format == '%')
+		if (*s == '%')
 		{
-			format++;
-			count = ft_write_fail_test(count, ft_print_format(*format, args));
+			s++;
+			if (*s != 0)
+				count = ft_write_fail_test(count, ft_print_format(*s, args));
 		}
 		else
-			count = ft_write_fail_test(count, write(1, format, 1));
+			count = ft_write_fail_test(count, write(1, s, 1));
 		if (count < 0)
+		{
+			va_end(args);
 			return (count);
-		format++;
+		}
+		if (*s != 0)
+			s++;
 	}
 	va_end(args);
 	return (count);
